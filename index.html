@@ -1,0 +1,383 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PayDash – Transaction Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f6f9;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --info: #0891b2;
+      --info-bg: #cffafe;
+      --text: #1e293b;
+      --muted: #64748b;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -1px rgba(0,0,0,.06);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+    .app-header .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .app-header .logo span { color: var(--text); }
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .875rem;
+      color: var(--muted);
+    }
+    .avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: .8rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── MAIN ── */
+    .main { max-width: 1280px; margin: 0 auto; padding: 28px 24px; }
+
+    .page-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .page-subtitle { font-size: .875rem; color: var(--muted); margin-bottom: 28px; }
+
+    /* ── METRICS ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 960px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .metrics-grid { grid-template-columns: 1fr; } }
+
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .metric-card .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .metric-card .card-label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .metric-card .card-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .metric-card .card-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .metric-card .card-sub {
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    .icon-indigo  { background: var(--primary-light); color: var(--primary); }
+    .icon-green   { background: var(--success-bg);    color: var(--success); }
+    .icon-red     { background: var(--danger-bg);     color: var(--danger); }
+    .icon-amber   { background: var(--warning-bg);    color: var(--warning); }
+
+    /* ── FILTERS ── */
+    .filters-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .filters-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+      min-width: 150px;
+    }
+    .filter-group label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .filter-group input,
+    .filter-group select {
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 0 10px;
+      font-size: .875rem;
+      color: var(--text);
+      background: var(--surface);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .filter-group input:focus,
+    .filter-group select:focus { border-color: var(--primary); }
+
+    .btn {
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 7px;
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s, background .15s;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: .88; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-ghost   { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+
+    .filter-error {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: var(--danger-bg);
+      border: 1px solid #fca5a5;
+      border-radius: 7px;
+      font-size: .82rem;
+      color: var(--danger);
+    }
+    .filter-error.visible { display: block; }
+
+    /* ── TABLE CARD ── */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-header h2 { font-size: 1rem; font-weight: 700; }
+    .table-count { font-size: .8rem; color: var(--muted); }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 11px 16px;
+      text-align: left;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .1s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+    tbody td {
+      padding: 13px 16px;
+      font-size: .865rem;
+      vertical-align: middle;
+    }
+
+    .tx-id { font-family: monospace; font-size: .8rem; color: var(--muted); }
+    .tx-name { font-weight: 600; }
+    .tx-method { font-size: .78rem; color: var(--muted); }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+    .badge-success { background: var(--success-bg); color: var(--success); }
+    .badge-success .badge-dot { background: var(--success); }
+
+    .badge-warning { background: var(--warning-bg); color: var(--warning); }
+    .badge-warning .badge-dot { background: var(--warning); }
+
+    .badge-danger  { background: var(--danger-bg);  color: var(--danger); }
+    .badge-danger  .badge-dot { background: var(--danger); }
+
+    .badge-info    { background: var(--info-bg);    color: var(--info); }
+    .badge-info    .badge-dot { background: var(--info); }
+
+    /* ── LOADING / EMPTY ── */
+    .state-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      gap: 14px;
+      color: var(--muted);
+    }
+    .state-box .state-icon { font-size: 2.5rem; }
+    .state-box p { font-size: .9rem; }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    .page-btns { display: flex; gap: 6px; }
+    .page-btn {
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: all .15s;
+    }
+    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .page-btn:disabled { opacity: .4; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="app-header">
+  <div class="logo">Pay<span>Dash</span></div>
+  <div class="header-user">
+    <div class="avatar">MR</div>
+    Merchant Portal
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-title">Transaction Dashboard</div>
+  <div class="page-subtitle">Monitor and manage your payment transactions in real time.</div>
+
+  <!-- ── METRICS ── -->
+  <div class="metrics-grid" id="metricsGrid">
+    <div class="metric-card">
+      <div class="card-top">
+        <span class="card-label">Total Volume</span>
+        <div class="card-icon icon-indigo">💳</div>
+      </div>
+      <div class="card-value" id="metricVolume">—</div>
+      <div class="card-sub" id="metricVolumeSub">Completed transactions</div>
+    </div>
+    <div class="metric-card">
+      <div class="card-top">
+        <span class="card-label">Success Rate</span>
+        <div class="card-icon icon-green">✅</div>
+      </div>
+      <div class="card-value" id="metricSuccess">—</div>
+      <div class="card-sub" id="metricSuccessSub">of all transactions</div>
+    </div>
+    <div class="metric-card">
+      <div class="card-top">
+        <span class="card-label">Failed Payments</span>
+        <div class="card-icon icon-red">❌</div>
+      </div>
+      <div class="card-value" id="metricFailed">—</div>
+      <div class="card-sub" id="metricFailedSub">Require attention</div>
+    </div>
+    <div class="metric-card">
+      <div class="card-top">
+        <span class="card-label">Pending Amount</span>
+        <div class="card-icon icon-amber">⏳</div>
+      </div>
+      <div class="card-value" id="metricPending">—</div>
+      <div class="card-sub" id="metricPendingSub">Awaiting settlement</div>
+    </div>
+  </div>
+
+  <!-- ── FILTERS ── -->
+  <div class="filters-card">
+    <div class="filters-row">
+      <div class="filter-group">
+        <label>From Date</label>
+        <input type="date" id="filterFrom"
