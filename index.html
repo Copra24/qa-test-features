@@ -9,38 +9,43 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f4f6f9;
-      --surface: #ffffff;
-      --border: #e2e8f0;
       --primary: #4f46e5;
       --primary-light: #eef2ff;
       --success: #16a34a;
-      --success-bg: #dcfce7;
+      --success-light: #dcfce7;
       --warning: #d97706;
-      --warning-bg: #fef3c7;
+      --warning-light: #fef3c7;
       --danger: #dc2626;
-      --danger-bg: #fee2e2;
+      --danger-light: #fee2e2;
       --info: #0891b2;
-      --info-bg: #cffafe;
-      --text: #1e293b;
-      --muted: #64748b;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -1px rgba(0,0,0,.06);
+      --info-light: #cffafe;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
       min-height: 100vh;
     }
 
-    /* ── HEADER ── */
-    .app-header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
+    /* ── Top nav ── */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px;
       height: 60px;
       display: flex;
       align-items: center;
@@ -50,334 +55,335 @@
       z-index: 100;
       box-shadow: var(--shadow);
     }
-    .app-header .logo {
+    .navbar-brand {
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--primary);
-      letter-spacing: -0.5px;
-    }
-    .app-header .logo span { color: var(--text); }
-    .header-user {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+    }
+    .navbar-brand svg { width: 24px; height: 24px; }
+    .navbar-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-size: .875rem;
-      color: var(--muted);
+      color: var(--gray-600);
     }
     .avatar {
-      width: 34px; height: 34px;
+      width: 36px; height: 36px;
       border-radius: 50%;
-      background: var(--primary-light);
-      color: var(--primary);
-      font-weight: 700;
-      font-size: .8rem;
+      background: var(--primary);
+      color: #fff;
       display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: .875rem;
     }
 
-    /* ── MAIN ── */
-    .main { max-width: 1280px; margin: 0 auto; padding: 28px 24px; }
+    /* ── Page layout ── */
+    .page { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
 
-    .page-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
-    .page-subtitle { font-size: .875rem; color: var(--muted); margin-bottom: 28px; }
-
-    /* ── METRICS ── */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+    .page-header {
       margin-bottom: 28px;
     }
-    @media (max-width: 960px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 540px) { .metrics-grid { grid-template-columns: 1fr; } }
+    .page-header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .page-header p {
+      font-size: .875rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    /* ── Metric cards ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
 
     .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: #fff;
       border-radius: var(--radius);
       padding: 20px;
       box-shadow: var(--shadow);
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .metric-card .card-top {
-      display: flex;
-      justify-content: space-between;
       align-items: flex-start;
+      gap: 16px;
+      border: 1px solid var(--gray-200);
     }
-    .metric-card .card-label {
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .5px;
-    }
-    .metric-card .card-icon {
-      width: 36px; height: 36px;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
-    .metric-card .card-value {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .metric-card .card-sub {
-      font-size: .78rem;
-      color: var(--muted);
-    }
-
-    .icon-indigo  { background: var(--primary-light); color: var(--primary); }
-    .icon-green   { background: var(--success-bg);    color: var(--success); }
-    .icon-red     { background: var(--danger-bg);     color: var(--danger); }
-    .icon-amber   { background: var(--warning-bg);    color: var(--warning); }
-
-    /* ── FILTERS ── */
-    .filters-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    .metric-icon {
+      width: 44px; height: 44px;
       border-radius: var(--radius);
-      padding: 18px 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .metric-icon svg { width: 22px; height: 22px; }
+    .metric-icon.blue   { background: var(--primary-light); color: var(--primary); }
+    .metric-icon.green  { background: var(--success-light); color: var(--success); }
+    .metric-icon.red    { background: var(--danger-light);  color: var(--danger);  }
+    .metric-icon.yellow { background: var(--warning-light); color: var(--warning); }
+
+    .metric-body { flex: 1; min-width: 0; }
+    .metric-label {
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 4px;
+    }
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .metric-sub {
+      font-size: .75rem;
+      color: var(--gray-400);
+      margin-top: 2px;
+    }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px 20px;
       margin-bottom: 20px;
       box-shadow: var(--shadow);
-    }
-    .filters-row {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
       align-items: flex-end;
+      gap: 16px;
     }
     .filter-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      flex: 1;
-      min-width: 150px;
+      gap: 4px;
     }
     .filter-group label {
       font-size: .75rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .4px;
+      font-weight: 500;
+      color: var(--gray-600);
     }
     .filter-group input,
     .filter-group select {
-      height: 38px;
-      border: 1px solid var(--border);
-      border-radius: 7px;
+      height: 36px;
       padding: 0 10px;
+      border: 1px solid var(--gray-300);
+      border-radius: 6px;
       font-size: .875rem;
-      color: var(--text);
-      background: var(--surface);
+      color: var(--gray-700);
+      background: #fff;
       outline: none;
       transition: border-color .15s;
     }
     .filter-group input:focus,
     .filter-group select:focus { border-color: var(--primary); }
 
+    .filter-group input[type="date"] { padding: 0 8px; min-width: 150px; }
+
+    .filter-actions { display: flex; gap: 8px; align-items: flex-end; }
+
     .btn {
-      height: 38px;
-      padding: 0 18px;
-      border-radius: 7px;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 6px;
       font-size: .875rem;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       border: none;
       transition: opacity .15s, background .15s;
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px;
     }
-    .btn:hover { opacity: .88; }
+    .btn:hover { opacity: .9; }
     .btn-primary { background: var(--primary); color: #fff; }
-    .btn-ghost   { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-outline {
+      background: #fff;
+      color: var(--gray-700);
+      border: 1px solid var(--gray-300);
+    }
+    .btn-outline:hover { background: var(--gray-50); }
 
+    /* inline validation message */
     .filter-error {
-      display: none;
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: var(--danger-bg);
-      border: 1px solid #fca5a5;
-      border-radius: 7px;
-      font-size: .82rem;
+      width: 100%;
+      font-size: .8125rem;
       color: var(--danger);
+      display: none;
+      margin-top: 4px;
     }
     .filter-error.visible { display: block; }
 
-    /* ── TABLE CARD ── */
+    /* ── Table card ── */
     .table-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: #fff;
+      border: 1px solid var(--gray-200);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .table-card-header {
       padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .table-header h2 { font-size: 1rem; font-weight: 700; }
-    .table-count { font-size: .8rem; color: var(--muted); }
+    .table-card-header h2 { font-size: 1rem; font-weight: 600; color: var(--gray-800); }
+    .table-count { font-size: .8125rem; color: var(--gray-500); }
 
-    table { width: 100%; border-collapse: collapse; }
-    thead th {
-      padding: 11px 16px;
+    .table-wrapper { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+    }
+    thead { background: var(--gray-50); }
+    th {
+      padding: 10px 16px;
       text-align: left;
-      font-size: .72rem;
-      font-weight: 700;
-      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: .5px;
-      background: #f8fafc;
-      border-bottom: 1px solid var(--border);
+      letter-spacing: .05em;
+      color: var(--gray-500);
+      border-bottom: 1px solid var(--gray-200);
+      white-space: nowrap;
     }
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background .1s;
-    }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #f8fafc; }
-    tbody td {
-      padding: 13px 16px;
-      font-size: .865rem;
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700);
       vertical-align: middle;
     }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--gray-50); }
 
-    .tx-id { font-family: monospace; font-size: .8rem; color: var(--muted); }
-    .tx-name { font-weight: 600; }
-    .tx-method { font-size: .78rem; color: var(--muted); }
+    .tx-id { font-family: monospace; font-size: .8125rem; color: var(--gray-500); }
+    .tx-customer { font-weight: 500; color: var(--gray-800); }
+    .tx-amount { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+    .tx-method {
+      font-size: .75rem;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
 
-    /* ── BADGE ── */
+    /* ── Status badges ── */
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       padding: 3px 10px;
       border-radius: 20px;
-      font-size: .72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .4px;
+      font-size: .75rem;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .badge.success  { background: var(--success-light); color: var(--success); }
+    .badge.success  .badge-dot { background: var(--success); }
+    .badge.warning  { background: var(--warning-light); color: var(--warning); }
+    .badge.warning  .badge-dot { background: var(--warning); }
+    .badge.danger   { background: var(--danger-light);  color: var(--danger);  }
+    .badge.danger   .badge-dot { background: var(--danger);  }
+    .badge.info     { background: var(--info-light);    color: var(--info);    }
+    .badge.info     .badge-dot { background: var(--info);    }
 
-    .badge-success { background: var(--success-bg); color: var(--success); }
-    .badge-success .badge-dot { background: var(--success); }
-
-    .badge-warning { background: var(--warning-bg); color: var(--warning); }
-    .badge-warning .badge-dot { background: var(--warning); }
-
-    .badge-danger  { background: var(--danger-bg);  color: var(--danger); }
-    .badge-danger  .badge-dot { background: var(--danger); }
-
-    .badge-info    { background: var(--info-bg);    color: var(--info); }
-    .badge-info    .badge-dot { background: var(--info); }
-
-    /* ── LOADING / EMPTY ── */
+    /* ── Loading / empty ── */
     .state-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       padding: 60px 20px;
-      gap: 14px;
-      color: var(--muted);
+      text-align: center;
+      color: var(--gray-400);
     }
-    .state-box .state-icon { font-size: 2.5rem; }
-    .state-box p { font-size: .9rem; }
+    .state-box svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: .4; }
+    .state-box p { font-size: .9375rem; }
+
     .spinner {
       width: 36px; height: 36px;
-      border: 3px solid var(--border);
+      border: 3px solid var(--gray-200);
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin .7s linear infinite;
+      margin: 0 auto 12px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── PAGINATION ── */
+    /* ── Pagination ── */
     .pagination {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 14px 20px;
-      border-top: 1px solid var(--border);
-      font-size: .8rem;
-      color: var(--muted);
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
-    .page-btns { display: flex; gap: 6px; }
-    .page-btn {
-      width: 32px; height: 32px;
+    .pagination-info { font-size: .8125rem; color: var(--gray-500); }
+    .pagination-controls { display: flex; gap: 4px; }
+    .pg-btn {
+      min-width: 34px; height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--gray-300);
+      background: #fff;
       border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--surface);
+      font-size: .8125rem;
+      color: var(--gray-600);
       cursor: pointer;
-      font-size: .8rem;
-      font-weight: 600;
-      color: var(--text);
-      transition: all .15s;
+      transition: background .15s, border-color .15s;
     }
-    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
-    .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .page-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .pg-btn:hover:not(:disabled) { background: var(--gray-50); border-color: var(--gray-400); }
+    .pg-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: 600; }
+    .pg-btn:disabled { opacity: .4; cursor: not-allowed; }
   </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
-<header class="app-header">
-  <div class="logo">Pay<span>Dash</span></div>
-  <div class="header-user">
-    <div class="avatar">MR</div>
-    Merchant Portal
+<!-- ─────────── NAV ─────────── -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="5" width="20" height="14" rx="2"/>
+      <path d="M2 10h20"/>
+    </svg>
+    PayDash
   </div>
-</header>
+  <div class="navbar-user">
+    <span>Merchant Portal</span>
+    <div class="avatar">JD</div>
+  </div>
+</nav>
 
-<main class="main">
-  <div class="page-title">Transaction Dashboard</div>
-  <div class="page-subtitle">Monitor and manage your payment transactions in real time.</div>
+<!-- ─────────── PAGE ─────────── -->
+<div class="page">
+  <div class="page-header">
+    <h1>Transaction Dashboard</h1>
+    <p>Monitor and manage your payment transactions in real time.</p>
+  </div>
 
-  <!-- ── METRICS ── -->
+  <!-- METRICS -->
   <div class="metrics-grid" id="metricsGrid">
-    <div class="metric-card">
-      <div class="card-top">
-        <span class="card-label">Total Volume</span>
-        <div class="card-icon icon-indigo">💳</div>
-      </div>
-      <div class="card-value" id="metricVolume">—</div>
-      <div class="card-sub" id="metricVolumeSub">Completed transactions</div>
-    </div>
-    <div class="metric-card">
-      <div class="card-top">
-        <span class="card-label">Success Rate</span>
-        <div class="card-icon icon-green">✅</div>
-      </div>
-      <div class="card-value" id="metricSuccess">—</div>
-      <div class="card-sub" id="metricSuccessSub">of all transactions</div>
-    </div>
-    <div class="metric-card">
-      <div class="card-top">
-        <span class="card-label">Failed Payments</span>
-        <div class="card-icon icon-red">❌</div>
-      </div>
-      <div class="card-value" id="metricFailed">—</div>
-      <div class="card-sub" id="metricFailedSub">Require attention</div>
-    </div>
-    <div class="metric-card">
-      <div class="card-top">
-        <span class="card-label">Pending Amount</span>
-        <div class="card-icon icon-amber">⏳</div>
-      </div>
-      <div class="card-value" id="metricPending">—</div>
-      <div class="card-sub" id="metricPendingSub">Awaiting settlement</div>
-    </div>
+    <!-- filled by JS -->
   </div>
 
-  <!-- ── FILTERS ── -->
-  <div class="filters-card">
-    <div class="filters-row">
-      <div class="filter-group">
-        <label>From Date</label>
-        <input type="date" id="filterFrom"
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label for="filterFrom">From Date</label>
+      <input type="date" id="filterFrom" />
+    </div>
+    
